@@ -1,0 +1,95 @@
+ ขั้นตอนแรกต้องรันตัวของ server.js ก่อน
+ ขั้นที่สอง ให้เอา api ต่างๆ มาใช้งาน ใน postman หรือ thunder client
+ 
+ สร้างบัญชีผู้ใช้ (Register)
+Method: POST
+URL: http://localhost:5000/api/register
+Body (JSON):
+{
+  "username": "testuser",
+  "email": "testuser@example.com",
+  "password": "password123"
+}
+
+Add Crypto to Wallet:
+Method: POST
+Route: http://localhost:3000/api/wallet/add
+Body (JSON):
+{
+  "userId": 1,
+  "crypto": "BTC",
+  "amount": 1
+}
+
+ เข้าสู่ระบบ (Login)
+Method: POST
+URL: http://localhost:5000/api/login
+
+ดึงข้อมูลออเดอร์ของผู้ใช้
+Method: GET
+URL: http://localhost:5000/api/orders/:userId
+ตัวอย่าง URL: http://localhost:5000/api/orders/1
+
+ยกเลิกออเดอร์
+Method: PUT
+URL: http://localhost:5000/api/orders/cancel/:orderId
+ตัวอย่าง URL: http://localhost:5000/api/orders/cancel/1
+
+Method: POST
+URL: http://localhost:5000/api/transfer
+Body (JSON):
+
+Method: GET
+URL: http://localhost:5000/api/transactions/:userId
+ตัวอย่าง URL: http://localhost:5000/api/transactions/1
+
+Exchange Fiat to Crypto:
+Method: POST
+Route: http://localhost:3000/api/exchange
+Body (JSON):
+{
+  "userId": 1,
+  "crypto": "BTC",
+  "fiatAmount": 1000,
+  "exchangeRate": 0.00003
+}
+
+Buy Crypto from Another User:
+Method: POST
+Route: http://localhost:3000/api/buy
+ฺBody (JSON):
+{
+  "buyerId": 1,
+  "sellerId": 2,
+  "crypto": "BTC",
+  "amount": 0.5,
+  "price": 20000
+}
+
+Get User Wallet:
+Method: GET
+Route: http://localhost:3000/api/wallet/:userId
+Example: http://localhost:3000/api/wallet/1
+
+{
+  "userId": 1,
+  "wallets": [
+    {
+      "crypto": "BTC",
+      "balance": 1
+    },
+    {
+      "crypto": "ETH",
+      "balance": 5
+    }
+  ]
+}
+
+
+router.post("/register", registerUser);
+router.post("/login", loginUser);
+router.get("/orders/:userId", getOrdersByUser);
+router.put("/orders/cancel/:orderId", cancelOrder);
+router.post("/transfer", transferCrypto);
+router.get("/transactions/:userId", getTransactionHistory);
+router.post("/transfer", transferCrypto);
